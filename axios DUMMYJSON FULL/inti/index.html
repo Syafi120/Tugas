@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <script src="bootstrap/js/bootstrap.bundle.min.js" defer></script>
+    <script src="script.js" defer></script>
+    <title>Axios JSON</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand text-light" href="http://127.0.0.1:5500/inti/index.html">Axios DummyJson</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon text-bg-light"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+             
+                <!-- Data Produk -->
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Data Barang
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item " id="get" onclick="getData()">Get Produk</a></li>
+                  <li><a class="dropdown-item " id="show" onclick="showData()">Show Produk</a></li>
+                  <li><a class="dropdown-item" id="post" data-bs-toggle="modal" data-bs-target="#product-modal"
+                    onclick="formProd()">Post Produk</a></li>
+                </ul>
+              </li>
+
+                <!-- Data Pelanggan -->
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-light" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Data Pelanggan
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" id="get-pel" onclick="getDatapelanggan()">Get Pelanggan</a></li>
+                  <li><a class="dropdown-item" id="post-pel" data-bs-toggle="modal"
+                    data-bs-target="#pelanggan-modaladd">Post Pelanggan</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+    <!-- As a link -->
+
+
+    <div class="mt-4" id="bar">
+
+    </div>
+
+    <div class="mt-4" id="cart">
+
+    </div>
+
+    <div id="tampil" class="mt-4">
+
+    </div>
+
+    <!-- MODAL ADD PRODUCT -->
+
+    <div class="modal fade" id="product-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form">
+                        <input type="number" name="" id="id" hidden>
+
+                        <label class="form-label mt-2" for="">Title</label>
+                        <input class="form-control" type="text" id="title">
+
+                        <label class="form-label mt-2" for="">Description</label>
+                        <input class="form-control" type="text" id="des">
+
+                        <label class="mt-2" for="">Category</label>
+                        <select class="form-select" id="cat">
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save"
+                        onclick="postData()">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL UPDATE PRODUCT -->
+
+    <div class="modal fade" id="product-modalup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form">
+                        <input type="number" name="" id="idu" hidden>
+
+                        <label class="form-label mt-2" for="">Title</label>
+                        <input class="form-control" type="text" id="titleu">
+
+                        <label class="form-label mt-2" for="">Description</label>
+                        <input class="form-control" type="text" id="desu">
+
+                        <!-- <label class="mt-2" for="">Category</label>
+                        <select class="form-select" id="catu">
+                        </select> -->
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save"
+                        onclick="updateData()">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL ADD PELANGGAN -->
+
+    <div class="modal fade" id="pelanggan-modaladd" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Tambah Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form">
+                        <input type="number" name="" id="id" hidden>
+
+                        <label class="form-label mt-2" for="">Pelanggan</label>
+                        <input class="form-control" type="text" id="pelanggan">
+
+                        <label class="form-label mt-2" for="">Alamat</label>
+                        <input class="form-control" type="text" id="alamat">
+
+                        <label class="mt-2" for="">Telp</label>
+                        <input class="form-control" type="text" id="telp">
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save"
+                        onclick="addDatapelanggan()">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL UPDATE PELANGGAN -->
+
+    <div class="modal fade" id="pelanggan-modalup" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Update Data</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" class="form">
+                        <input type="number" name="" id="idupel" hidden>
+
+                        <label class="form-label mt-2" for="">Pelanggan</label>
+                        <input class="form-control" type="text" id="pelangganup">
+
+                        <label class="form-label mt-2" for="">Alamat</label>
+                        <input class="form-control" type="text" id="alamatup">
+
+                        <label class="mt-2" for="">Telp</label>
+                        <input class="form-control" type="text" id="telpup">
+                        </select>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="save"
+                        onclick="updateDatapelanggan()">Save
+                        changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
